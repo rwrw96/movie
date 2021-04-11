@@ -3,6 +3,7 @@ class MoviesController < ApplicationController
   # require 'rubygems'
   # require 'ruby-tmdb'
   Tmdb::Api.language("ja")
+  
 #   # setup your API key
 # Tmdb.api_key = "t478f8de5776c799de5a"
 
@@ -23,6 +24,7 @@ class MoviesController < ApplicationController
   
   
   def search
+    @movies = Tmdb::Search.movie('terminator', page: 1, language: 'ja') 
   end
 
   def show
