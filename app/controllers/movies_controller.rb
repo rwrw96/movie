@@ -3,7 +3,7 @@ class MoviesController < ApplicationController
   # require 'rubygems'
   # require 'ruby-tmdb'
   Tmdb::Api.language("ja")
-  Tmdb::Api.key("f666fc01f99324fbc4beea6ae1f0e427")
+  
 #   # setup your API key
 # Tmdb.api_key = "t478f8de5776c799de5a"
 
