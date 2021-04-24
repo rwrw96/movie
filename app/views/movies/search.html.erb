@@ -2,10 +2,47 @@
 
 <div>
   <%= form_tag(root_path, method: :get) do %>
-    <%= search_field_tag :looking_for, nil, placeholder: 'Movie Title...',value: params[:looking_for] %>
+    <%= search_field_tag :looking_for,nil, placeholder: 'Movie Title...',value: params[:looking_for] %>
     <%= submit_tag '検索' %>
   <% end %>
+  
+  <% form_tag(root_path, method: :get) do %>
+    <% search_field_tag :looking,nil, placeholder: 'Movie Title...',value: params[:looking] %>
+    <% submit_tag '検索' %>
+  <% end %>
 </div>
+<%if params[:looking].present? %>
+ <% movie = JSON.parse((Tmdb::Genre.movies(params[:looking])).to_json) %>
+    <h2><%= params[:looking] %>の検索結果</h2>
+    <% movie = JSON.parse((Tmdb::Genre.movies(params[:looking],page: params[:page_for])).to_json) %>
+     =====================
+    <% i = 0 %>
+    <div class="card-wrapper">
+        <% while i < movie['table']['results'].count %>
+            <div class="card">
+                <div class="card-upperinfo">
+                    <%if movie['table']['results'][i]['table']['title'].present?%>
+                        <h3><%= link_to movie['table']['results'][i]['table']['title'],detail_path(movie['table']['results'][i]['table']['id']) %></h3>
+                    <%end%>
+                    <% if movie['table']['results'][i]['table']['release_date'].present? %>
+                        <p class="release-date"><%= movie['table']['results'][i]['table']['release_date'] %></p>
+                    <%end%>
+      </div>
+                <% if movie['table']['results'][i]['table']['poster_path'].present? %>
+                    <p><%= image_tag 'https://image.tmdb.org/t/p/w1280' + movie['table']['results'][i]['table']['poster_path'],class: "card-img" %></p>
+                <%end%>
+                
+                <% if movie['table']['results'][i]['table']['overview'].present? %>
+                    <p><%= movie['table']['results'][i]['table']['overview'] %></p>
+                <%end%>
+                
+            </div>
+            <% i += 1%>
+        <%end%>
+    </div>
+<% end %>
+<%= link_to "ホラー", "https://daae3ff7e70e4330be108db28209145d.vfs.cloud9.us-east-1.amazonaws.com/?utf8=%E2%9C%93&looking=18&commit=%E6%A4%9C%E7%B4%A2" %>
+
 
 <%if params[:looking_for].present? %>
     <% movieinfo = JSON.parse((Tmdb::Search.movie(params[:looking_for])).to_json) %>
@@ -27,6 +64,11 @@
                 <% if movieinfo['table']['results'][i]['table']['poster_path'].present? %>
                     <p><%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][i]['table']['poster_path'],class: "card-img" %></p>
                 <%end%>
+                
+                <% if movieinfo['table']['results'][i]['table']['overview'].present? %>
+                    <p><%= movieinfo['table']['results'][i]['table']['overview'] %></p>
+                <%end%>
+                
             </div>
             <% i += 1%>
         <%end%>
@@ -57,3 +99,4 @@
         <%end%>
     </div>
 <%end%>
+Copyright（c）2015 18Months Srl
