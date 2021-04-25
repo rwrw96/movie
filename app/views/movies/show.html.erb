@@ -14,8 +14,14 @@
 <% end %>
 <% end %>
  
-<%= @movie.title %>
-
+ 
+ <% @movies.each do |m| %>
+ <% if  @movieinfo["table"]["title"] == m.name %>
+ <% m.reviews.each do |r| %>
+ <%= r.title %>
+ <% end %>
+  <% end %>
+  <% end %>
 <% @movie.genres.map(&:name).join(', ') %>
 <%= @movie.overview %>
 

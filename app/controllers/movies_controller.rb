@@ -23,6 +23,7 @@ class MoviesController < ApplicationController
 # # => [binary blob representing JPEG]
   
   def showing
+    @movies = Movie.all
     @movie = Tmdb::Movie.detail(params[:id])
     @movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
     @movie = Movie.new(name: @movieinfo['table']['title'],intro: @movieinfo["table"]["poster_path"])
@@ -42,7 +43,7 @@ class MoviesController < ApplicationController
   end
 
   def show
-    
+     @movies = Movie.all
     @movie = Tmdb::Movie.detail(params[:id])
     @review = Review.new
     # @review.save
