@@ -10,5 +10,8 @@
   <%= @review.body %>
 </p>
 
+<%= @review.movie.name %>
+<%= image_tag 'https://image.tmdb.org/t/p/w1280' + @review.movie.intro %>
+
 <%= link_to 'Edit', edit_review_path(@review) %> |
 <%= link_to 'Back', reviews_path %>

@@ -3,7 +3,7 @@ class MoviesController < ApplicationController
   # require 'rubygems'
   # require 'ruby-tmdb'
   Tmdb::Api.language("ja")
-  Tmdb::Api.key()
+  Tmdb::Api.key("")
 #   # setup your API key
 # Tmdb.api_key = "t478f8de5776c799de5a"
 
@@ -22,22 +22,36 @@ class MoviesController < ApplicationController
 # @movie.posters.first.data
 # # => [binary blob representing JPEG]
   
-  
+  def showing
+    @movie = Tmdb::Movie.detail(params[:id])
+    @movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
+    @movie = Movie.new(name: @movieinfo['table']['title'],intro: @movieinfo["table"]["poster_path"])
+    @movie.save
+    @review = Review.new(review_params)
+    @review.movie_id = @movie.id
+    @review.save
+    redirect_to "/reviews/#{@review.id}"
+  end
+   
+   
+   def testt
+   end
   
   def search
     
   end
 
   def show
+    
     @movie = Tmdb::Movie.detail(params[:id])
+    @review = Review.new
+    # @review.save
     
-    
-    
-    # movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
-    
-    # @body = Review.new(title: movieinfo['table']['title'],movie_id: @movie)
-    # @body.save
-
-
+    @movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
+    # @movie = Movie.new(name: @movieinfo['table']['title'],intro: @movieinfo["table"]["poster_path"])
+    # @movies.save
+  end
+  def review_params
+    params.require(:review).permit(:title,:body).merge(movie_id: @movie)
   end
 end

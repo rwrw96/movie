@@ -2,11 +2,25 @@
 <%if detail['table']['title'].present?%>
     <h3><%= detail['table']['title'] %></h3>
 <%end%>
+
+<%= link_to "ff", showing_path(@movieinfo["table"]["id"]) %>
+
+<%= form_for(@review, url: showing_path(@movieinfo["table"]["id"])) do |f| %>
+<%= f.fields_for :movies do |c| %>
+<%= c.hidden_field :name, value: @movieinfo["table"]["title"] %>
+<%= f.text_field :title %>
+<%= f.text_field :body %>
+<%= f.submit %>
+<% end %>
+<% end %>
+ 
+<%= @movie.title %>
+
 <% @movie.genres.map(&:name).join(', ') %>
 <%= @movie.overview %>
 
-<%= @movie.poster_path %>
-
+<%#= image_tag 'https://image.tmdb.org/t/p/w1280' + @body.body %>
+<%#= @body.title %>
 
 
 <%#= image_tag 'https://image.tmdb.org/t/p/w1280' + @movie.poster_path %>
