@@ -1,18 +1,26 @@
-<p id="notice"><%= notice %></p>
+<div class="movie-evaluation" data-score="<%= @review.rate %>"></div>
 
-<p>
-  <strong>Title:</strong>
-  <%= @review.title %>
-</p>
+<script>
+  $('.movie-evaluation').raty({
+    readOnly: true,
+    score: function() {
+      return $(this).attr('data-score');
+    },
+    path: '/assets/'
+  });
+</script>
 
-<p>
-  <strong>Body:</strong>
-  <%= @review.body %>
-</p>
+<%= @review.movie_title %>
+<%= @review.release_date %>
+<%= @review.overview %>
+<%= image_tag 'https://image.tmdb.org/t/p/w1280' + @review.poster_path, class: "image" %>
 
+<%= @review.title %>
+<%= @review.body %>
 
-<%= @review.movie.name %>
-<%= image_tag 'https://image.tmdb.org/t/p/w1280' + @review.movie.intro %>
-
-<%= link_to 'Edit', edit_review_path(@review) %> |
-<%= link_to 'Back', reviews_path %>
+<h3>いいね件数: <%= @review.likes.count %></h3>
+<% if current_user.already_liked?(@review) %>
+  <%= link_to "取り消し", destroy_like_path(@review), method: :DELETE%>
+<% else %>
+  <%= link_to '保存', create_like_path(@review), method: :POST %>
+<% end %>

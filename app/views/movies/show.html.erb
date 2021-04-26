@@ -1,36 +1,64 @@
 <% detail = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json) %>
-<%if detail['table']['title'].present?%>
-    <h3><%= detail['table']['title'] %></h3>
-<%end%>
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+     
 
-<%= link_to "ff", showing_path(@movieinfo["table"]["id"]) %>
+        <%if detail['table']['poster_path'].present?%>
+          <%= image_tag 'https://image.tmdb.org/t/p/w1280' + detail['table']['poster_path'], class: "image" %>
+        <%end%>
+        <%if detail['table']['title'].present?%>
+          <h4><%= detail['table']['title'] %></h4>
+        <%end%>
+      </div>
+      <div class="col-8">
+        <%if detail['table']['overview'].present?%>
+          <%= detail['table']['overview'] %>
+        <%end%>
+    
 
-<%= form_for(@review, url: showing_path(@movieinfo["table"]["id"])) do |f| %>
-<%= f.fields_for :movies do |c| %>
-<%= c.hidden_field :name, value: @movieinfo["table"]["title"] %>
-<%= f.text_field :title %>
-<%= f.text_field :body %>
-<%= f.submit %>
-<% end %>
-<% end %>
+        <%= form_with model: @review, local: true do |f| %>
+          <%= f.hidden_field :movie_title, value: @movieinfo["table"]["title"] %>
+          <%= f.hidden_field :release_date, value: @movieinfo["table"]["release_date"] %>
+          <%= f.hidden_field :overview, value: @movieinfo["table"]["overview"] %>
+          <%= f.hidden_field :poster_path, value: @movieinfo["table"]["poster_path"] %>
+          <%= f.hidden_field :tmdb, value: @movieinfo["table"]["id"] %>
+          <div id="evaluate_stars">
+            <%= f.hidden_field :rate, id: :evaluate_stars %>
+            <label>評価</label>
+          </div>
+          <script>
+             $('#evaluate_stars').raty({
+              half: true,
+              starOn: "<%= asset_path('star-on.png') %>",
+              starOff: "<%= asset_path('star-off.png') %>",
+              starHalf: "<%= asset_path('star-half.png') %>",
+              scoreName: 'review[rate]' 
+            }); 
+          </script>
+
+          <%= f.text_field :title %>
+          <%= f.text_area :body %>
+          <%= f.submit %>
+          <% end %>
+      </div>
+    </div>
+
+
+
+  <div class="row">
+    <div class="offset-3 col-6">
+      <% @reviews.each do |r| %>
+        <% if r.tmdb == @movieinfo["table"]["id"] %>
+          <%= r.user.name %>
+          <%= link_to r.title, review_path(r.id) %>
+          <%= r.body %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
  
- 
- <% @movies.each do |m| %>
- <% if  @movieinfo["table"]["title"] == m.name %>
- <% m.reviews.each do |r| %>
- <%= r.title %>
- <% end %>
-  <% end %>
-  <% end %>
-<% @movie.genres.map(&:name).join(', ') %>
-<%= @movie.overview %>
-
-<%#= image_tag 'https://image.tmdb.org/t/p/w1280' + @body.body %>
-<%#= @body.title %>
-
-
-<%#= image_tag 'https://image.tmdb.org/t/p/w1280' + @movie.poster_path %>
-
-
 
 Copyright（c）2015 18Months Srl

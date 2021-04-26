@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
-  get 'movies/search'
-  get 'movies/show'
+    
+  get 'likes/create'
+  get 'likes/destroy'
+  devise_for :users
+  root 'movies#index'
+  resources :movies
   resources :reviews
-   post "movies/:id" => "movies#testt"
-  root 'movies#search'
-  post "movies/:id" => "movies#testt"
-  get 'movies/:id' => "movies#show",as: 'detail'
-  post 'movies/:id/show' => "movies#showing",as: "showing"
+  resources :users
+  post 'like/:id' => 'likes#create', as: 'create_like'
+  delete 'like/:id' => 'likes#destroy', as: 'destroy_like'
+  post 'movies/:id' => "movies#show",as: "detail"
+  get 'movies/:id' => "movies#show"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

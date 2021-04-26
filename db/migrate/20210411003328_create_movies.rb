@@ -1,7 +1,7 @@
 class CreateMovies < ActiveRecord::Migration[5.0]
   def change
     create_table :movies do |t|
-      t.text :name
+      t.text :title
       t.text :intro
       t.date :releasedate
       t.string :title

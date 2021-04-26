@@ -14,7 +14,7 @@
 <%if params[:looking].present? %>
  <% movie = JSON.parse((Tmdb::Genre.movies(params[:looking])).to_json) %>
     <h2><%= params[:looking] %>の検索結果</h2>
-    <% movie = JSON.parse((Tmdb::Genre.movies(params[:looking],page: params[:page_for])).to_json) %>
+    <% movieinfo = JSON.parse((Tmdb::Genre.movies(params[:looking],page: params[:page_for])).to_json) %>
      =====================
     <% i = 0 %>
     <div class="card-wrapper">
@@ -85,7 +85,7 @@
                     <%if movieinfo['table']['results'][i]['table']['title'].present?%>
                         <h3><%= link_to movieinfo['table']['results'][i]['table']['title'], detail_path(movieinfo['table']['results'][i]['table']['id'])%></h3>
                     <%end%>
-                    <% if movieinfo['table']['results'][i]['table']['release_date'].present? %>
+                        <% if movieinfo['table']['results'][i]['table']['release_date'].present? %>
                         <p class="release-date"><%= movieinfo['table']['results'][i]['table']['release_date'] %></p>
                     <%end%>
                 </div>

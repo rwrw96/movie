@@ -1,0 +1,18 @@
+
+<%= current_user.name %>
+
+<%= current_user.introduction %>
+
+<% current_user.reviews.each do |r| %>
+<%= r.movie_title %>
+<%= image_tag 'https://image.tmdb.org/t/p/w1280' + r.poster_path , class: "image" %>
+<%= r.title %>
+<%= r.body %>
+<% end %>
+
+<% current_user.likes.each do |l| %>
+<%= l.review.poster_path %>
+<% end %>
+
+<%= link_to "edit", edit_user_path(current_user) %>
+<%= link_to "/", root_path %>
