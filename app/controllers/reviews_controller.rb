@@ -9,7 +9,7 @@ def create
   @review = Review.new(review_params)
   @review.user_id = current_user.id
   @review.save
-  redirect_to review_path(@review)
+  redirect_to review_path(@review.id)
 end
 
 private
