@@ -1,5 +1,5 @@
 
-  <%= link_to "マイページ" , user_path(current_user.id) %>
+  <%# link_to "マイページ" , user_path(current_user.id) %>
   <%= form_tag(root_path, method: :get) do %>
     <%= search_field_tag :looking_for,nil, placeholder: 'Movie Title...',value: params[:looking_for] %>
     <%= search_field_tag :page_for, nil, value: params[:page_for] %>
