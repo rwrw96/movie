@@ -30,7 +30,7 @@
     </div>
   </div>
   
-  
+<h2 class="top">Movies</h2>
   
 <%if params[:genre].present? %>
  <% movieinfo = JSON.parse((Tmdb::Genre.movies(params[:genre])).to_json) %>
@@ -38,13 +38,21 @@
     <div class="row">
         <% i = 0 %>
         <% while i < movieinfo['table']['results'].count %>
-          <div class="col-4">
-            <%if movieinfo['table']['results'][i]['table']['title'].present?%>
-              <%= link_to movieinfo['table']['results'][i]['table']['title'],detail_path(movieinfo['table']['results'][i]['table']['id']) %>
-            <%end%>
+          <div class="col-3">
+            
             <% if movieinfo['table']['results'][i]['table']['poster_path'].present? %>
               <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][i]['table']['poster_path'],class: "image" %>
             <%end%>
+            <div class="movie-title">
+            <%if movieinfo['table']['results'][i]['table']['title'].present?%>
+              <%= link_to movieinfo['table']['results'][i]['table']['title'],detail_path(movieinfo['table']['results'][i]['table']['id']) %>
+            <%end%>
+            </div>
+            <div class="release_date">
+            <%if movieinfo['table']['results'][i]['table']['release_date'].present?%>
+              <%= movieinfo['table']['results'][i]['table']['release_date'] %>
+            <%end%>
+            </div>
            </div>
         <% i += 1%>
         <%end%>
@@ -72,54 +80,64 @@
     
 <% else %>
   
-  <% movieinfo = JSON.parse((Tmdb::Movie.popular).to_json) %>
+  
+  
+  
+  
+  <% @popular_movie = JSON.parse((Tmdb::Movie.popular).to_json) %>
     <div class="container">
       <div class="row">
         <div class="col-12">
           <div class="slider-for">
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][3]['table']['poster_path'] %>
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][4]['table']['poster_path'] %>
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][5]['table']['poster_path'] %>
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][6]['table']['poster_path'] %>
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][7]['table']['poster_path'] %>
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][8]['table']['poster_path'] %>
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][9]['table']['poster_path'] %>
-            <%= image_tag 'https://image.tmdb.org/t/p/original' + movieinfo['table']['results'][10]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][3]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][4]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][5]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][6]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][7]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][8]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][9]['table']['poster_path'] %>
+            <%= image_tag 'https://image.tmdb.org/t/p/original' + @popular_movie['table']['results'][10]['table']['poster_path'] %>
           </div>
         </div>
       </div>
     </div>
       
     <div class="slider-nav">
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][3]['table']['poster_path'] %>
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][4]['table']['poster_path'] %>
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][5]['table']['poster_path'] %>
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][6]['table']['poster_path'] %>
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][7]['table']['poster_path'] %>
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][8]['table']['poster_path'] %>
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][9]['table']['poster_path'] %>
-      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][10]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][3]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][4]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][5]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][6]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][7]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][8]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][9]['table']['poster_path'] %>
+      <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][10]['table']['poster_path'] %>
     </div>
   
-  
+  <% n = 1 %>
+  <% while n < 2 %>
+  <% @popular_movie = JSON.parse((Tmdb::Movie.popular(page: n)).to_json) %>
     <div class="container">
       <div class="row">
+        
+  
         <% i = 0 %>
-        <% while i < movieinfo['table']['results'].count %>
+        <% while i < @popular_movie['table']['results'].count %>
           <div class="col-4">
-            <%if movieinfo['table']['results'][i]['table']['title'].present?%>
-              <%#= link_to movieinfo['table']['results'][i]['table']['title'], detail_path(movieinfo['table']['results'][i]['table']['id']) %>
+            <%if @popular_movie['table']['results'][i]['table']['title'].present?%>
+              <%= link_to @popular_movie['table']['results'][i]['table']['title'], detail_path(@popular_movie['table']['results'][i]['table']['id']) %>
             <% end %>  
   
-            <% if movieinfo['table']['results'][i]['table']['poster_path'].present? %>
-              <%#= image_tag 'https://image.tmdb.org/t/p/w1280' + movieinfo['table']['results'][i]['table']['poster_path'],class: "image" %>
+            <% if @popular_movie['table']['results'][i]['table']['poster_path'].present? %>
+              <%= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][i]['table']['poster_path'],class: "image" %>
             <%end%>
           </div>
         <% i += 1%>
-        <%end%>
+           <%end%>
+        
       </div>
     </div>
-    
+  <% n += 1 %>
+  <% end %>
 <% end %>
     
   Copyright（c）2015 18Months Srl

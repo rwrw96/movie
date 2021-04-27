@@ -23,6 +23,11 @@ class MoviesController < ApplicationController
 # @movie.posters.first.data
 # # => [binary blob representing JPEG]
 
+
+def index
+  
+end
+
 def show 
   @reviews = Review.all
   @review = Review.new
