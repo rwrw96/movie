@@ -10,10 +10,10 @@
   });
 </script>
 
-<%= @review.movie_title %>
-<%= @review.release_date %>
-<%= @review.overview %>
-<%= image_tag 'https://image.tmdb.org/t/p/w1280' + @review.poster_path, class: "image" %>
+<%= @review.movie.title %>
+<%= @review.movie.release_date %>
+<%= @review.movie.overview %>
+<%= image_tag 'https://image.tmdb.org/t/p/w1280' + @review.movie.poster_path, class: "image" %>
 
 <%= @review.title %>
 <%= @review.body %>

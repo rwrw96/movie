@@ -14,8 +14,7 @@
         
         <% array = [] %>
         <% @reviews.each do |r| %>
-          <% if r.tmdb == @movieinfo["table"]["id"] %>
-          
+          <% if r.movie.tmdb == @movieinfo["table"]["id"] %>
             <% array << r.rate %>
           <% end %>
         <% end %>
@@ -31,11 +30,12 @@
         <%end%>
     
         <%= form_with model: @review, local: true do |f| %>
-          <%= f.hidden_field :movie_title, value: @movieinfo["table"]["title"] %>
-          <%= f.hidden_field :release_date, value: @movieinfo["table"]["release_date"] %>
-          <%= f.hidden_field :overview, value: @movieinfo["table"]["overview"] %>
-          <%= f.hidden_field :poster_path, value: @movieinfo["table"]["poster_path"] %>
-          <%= f.hidden_field :tmdb, value: @movieinfo["table"]["id"] %>
+          <%= f.fields_for :movie do |c| %>
+          <%= c.hidden_field :title, value: @movieinfo["table"]["title"] %>
+          <%= c.hidden_field :release_date, value: @movieinfo["table"]["release_date"] %>
+          <%= c.hidden_field :overview, value: @movieinfo["table"]["overview"] %>
+          <%= c.hidden_field :poster_path, value: @movieinfo["table"]["poster_path"] %>
+          <%= c.hidden_field :tmdb, value: @movieinfo["table"]["id"] %>
           <div id="evaluate_stars">
             <%= f.hidden_field :rate, id: :evaluate_stars %>
             <label>評価</label>
@@ -52,7 +52,9 @@
 
           <%= f.text_field :title %>
           <%= f.text_area :body %>
+          <%= f.hidden_field :movie_id, value: @movie.id %>
           <%= f.submit %>
+          <% end %>
           <% end %>
       </div>
     </div>
@@ -61,12 +63,14 @@
 
   <div class="row">
     <div class="offset-3 col-6">
-      <% @reviews.each do |r| %>
-        <% if r.tmdb == @movieinfo["table"]["id"] %>
+      <% Movie.all.each do |m| %>
+        <% if m.tmdb == @movieinfo["table"]["id"] %>
+        <% m.reviews.each do |r| %>
           <%= r.user.name %>
           <%= link_to r.title, review_path(r.id) %>
           <%= r.body %>
         <% end %>
+      <% end %>
       <% end %>
     </div>
   </div>

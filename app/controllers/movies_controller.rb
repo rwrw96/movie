@@ -28,7 +28,11 @@ def show
   @review = Review.new
   @movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
   
-  @movie = Movie.new(title: @movieinfo["table"]["title"])
+  @movie = Movie.new(title: @movieinfo["table"]["title"],
+                    release_date: @movieinfo["table"]["release_date"],
+                    overview: @movieinfo["table"]["overview"],
+                    poster_path: @movieinfo["table"]["poster_path"],
+                    tmdb: @movieinfo["table"]["id"])
   array = []
   Movie.all.each do |m|
     array << m.title
@@ -38,7 +42,6 @@ def show
   else
     @movie.save
   end
-
 end
 
   
@@ -48,7 +51,5 @@ end
     unless user_signed_in?
       redirect_to  '/users/sign_in'
     end
-  
-    
   end
 end

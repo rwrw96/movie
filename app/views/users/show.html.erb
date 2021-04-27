@@ -42,8 +42,8 @@
         
         <% @user.reviews.each do |r| %>
         <tr>
-        <td><<%= r.movie_title %>></td>
-        <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + r.poster_path , class: "review_image" %></td>
+        <td><<%= r.movie.title %>></td>
+        <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + r.movie.poster_path , class: "review_image" %></td>
         <td><%= r.title %></td>
         <td><%= r.body %></td>
         </tr>
@@ -68,8 +68,8 @@
   <tbody>
     <% @user.likes.each do |l| %>
     <tr>
-      <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + l.review.poster_path, class: "review_image" %></td>
-      <td><<%= l.review.movie_title %>></td>
+      <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + l.review.movie.poster_path, class: "review_image" %></td>
+      <td><<%= l.review.movie.title %>></td>
     </tr>
     <% end %>
   </tbody>
