@@ -1,19 +1,67 @@
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <table class="table">
+        <thead>
+          <th>Name</th>
+          <th>Introduction</th>
+        </thead>
+        <tbody>
+          <td><%= current_user.name %></td>
+          <td><%= current_user.introduction %></td>
+        </tbody>
+      </table>
+    </div>
+  
+  <div class="col-8">
+    <table class="table">
+      <thead>
+        <th>レビュー一覧！！</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody>
+        
+        <% current_user.reviews.each do |r| %>
+        <tr>
+        <td><<%= r.movie_title %>></td>
+        <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + r.poster_path , class: "review_image" %></td>
+        <td><%= r.title %></td>
+        <td><%= r.body %></td>
+        </tr>
+        <% end %>
+        
+      </tbody>
+    </table>
+    
+    
+  </div>
+  </div>
 
-<%= current_user.name %>
-
-<%= current_user.introduction %>
-
-<% current_user.reviews.each do |r| %>
-<%= r.movie_title %>
-<%= image_tag 'https://image.tmdb.org/t/p/w1280' + r.poster_path , class: "image" %>
-<%= r.title %>
-<%= r.body %>
-<% end %>
 
 
-<% current_user.likes.each do |l| %>
-<%= l.review.poster_path %>
-<% end %>
+
+
+<table class="table">
+  <thead>
+    <th>保存したもの</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% current_user.likes.each do |l| %>
+    <tr>
+      <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + l.review.poster_path, class: "review_image" %></td>
+      <td><<%= l.review.movie_title %>></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
 
 <%= link_to "edit", edit_user_path(current_user) %>
 <%= link_to "/", root_path %>
+
+</div>
