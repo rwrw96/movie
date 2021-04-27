@@ -27,6 +27,18 @@ def show
   @reviews = Review.all
   @review = Review.new
   @movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
+  
+  @movie = Movie.new(title: @movieinfo["table"]["title"])
+  array = []
+  Movie.all.each do |m|
+    array << m.title
+  end
+   if @movieinfo["table"]["title"].in?(array)
+    return
+  else
+    @movie.save
+  end
+
 end
 
   

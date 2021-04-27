@@ -15,8 +15,8 @@
           <td><%= @user.name %></td>
           <td><%= @user.introduction %></td>
           <tr>
-            <td><%=link_to "フォロー", follows_user_path(@user.id) %></td>
-          <td><%=link_to "フォロワー", followers_user_path(@user.id) %></td>
+            <td><%=link_to "フォロー", follows_user_path(@user.id) %>:<%= @user.followings.count %></td>
+          <td><%=link_to "フォロワー", followers_user_path(@user.id) %>:<%= @user.followers.count %></td>
           </tr>
           
           <% if current_user != @user %>
