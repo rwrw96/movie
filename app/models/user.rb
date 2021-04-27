@@ -4,8 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
-         has_many :reviews
-         has_many :likes
+         has_many :reviews, dependent: :destroy
+         has_many :likes, dependent: :destroy
          
   def already_liked?(review)
     self.likes.exists?(review_id: review.id)
