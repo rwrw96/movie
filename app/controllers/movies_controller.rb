@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  before_action :move_to_signed_in
   require "themoviedb-api"
   # require 'rubygems'
   # require 'ruby-tmdb'
@@ -27,4 +28,15 @@ def show
   @review = Review.new
   @movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
 end
+
+  
+  
+  
+  def move_to_signed_in
+    unless user_signed_in?
+      redirect_to  '/users/sign_in'
+    end
+  
+    
+  end
 end

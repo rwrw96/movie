@@ -12,10 +12,13 @@
           <th></th>
         </thead>
         <tbody>
-          <td><%= current_user.name %></td>
-          <td><%= current_user.introduction %></td>
-          <td><%=link_to "フォロー", follows_user_path(@user.id) %></td>
+          <td><%= @user.name %></td>
+          <td><%= @user.introduction %></td>
+          <tr>
+            <td><%=link_to "フォロー", follows_user_path(@user.id) %></td>
           <td><%=link_to "フォロワー", followers_user_path(@user.id) %></td>
+          </tr>
+          
           <% if current_user != @user %>
         <% if @user.followed_by?(current_user) %>
             <td><%=link_to "フォロー済み", user_relationships_path(@user.id), method: :delete %></td>
@@ -37,7 +40,7 @@
       </thead>
       <tbody>
         
-        <% current_user.reviews.each do |r| %>
+        <% @user.reviews.each do |r| %>
         <tr>
         <td><<%= r.movie_title %>></td>
         <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + r.poster_path , class: "review_image" %></td>
@@ -63,7 +66,7 @@
     <th></th>
   </thead>
   <tbody>
-    <% current_user.likes.each do |l| %>
+    <% @user.likes.each do |l| %>
     <tr>
       <td><%= image_tag 'https://image.tmdb.org/t/p/w1280' + l.review.poster_path, class: "review_image" %></td>
       <td><<%= l.review.movie_title %>></td>
@@ -75,7 +78,7 @@
 
 
 
-<%= link_to "edit", edit_user_path(current_user) %>
+<%= link_to "edit", edit_user_path(@user) %>
 <%= link_to "/", root_path %>
 
 </div>
