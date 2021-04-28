@@ -2,7 +2,7 @@
   <%= link_to "マイページ" , user_path(current_user) %>
   <%= form_tag(root_path, method: :get) do %>
     <%= search_field_tag :looking_for,nil, placeholder: 'Movie Title...',value: params[:looking_for] %>
-    <%= search_field_tag :page_for, nil, value: params[:page_for] %>
+    <%= search_field_tag :page, nil, value: params[:page] %>
     <%= submit_tag '検索' %>
   <% end %>
 
@@ -24,16 +24,17 @@
           <%= link_to "#ロマンス", "/?utf8=%E2%9C%93&genre=10749&commit=%E6%A4%9C%E7%B4%A2" %>
           <%= link_to "#サスペンス", "/?utf8=%E2%9C%93&genre=53&commit=%E6%A4%9C%E7%B4%A2" %>
           <%= link_to "#戦争", "/?utf8=%E2%9C%93&genre=10752&commit=%E6%A4%9C%E7%B4%A2" %>
-          
         </div>
       </div>
     </div>
   </div>
   
 <h2 class="top">Movies</h2>
-  
+
 <%if params[:genre].present? %>
- <% movieinfo = JSON.parse((Tmdb::Genre.movies(params[:genre])).to_json) %>
+
+ <% movieinfo = JSON.parse(Tmdb::Genre.movies(params[:genre], page: 1).to_json) %>
+ 
   <div class="container">
     <div class="row">
         <% i = 0 %>
@@ -60,11 +61,20 @@
   </div>
   
 <% elsif params[:looking_for].present? %>
-  <% movieinfo = JSON.parse((Tmdb::Search.movie(params[:looking_for])).to_json) %>
+
+  
+  <% movie = JSON.parse(Tmdb::Search.movie(params[:looking_for]).to_json) %>
+  <% movie["table"]["total_pages"] %>
+  
+  <% n = 1 %>
+  <% while n <  movie["table"]["total_pages"] %>
+  <% movieinfo = JSON.parse(Tmdb::Search.movie(params[:looking_for],page: n).to_json) %>
+  
     <div class="container">
       <div class="row">
         <% i = 0 %>
         <% while i < movieinfo['table']['results'].count %>
+         
           <div class="col-3">
            
             <% if movieinfo['table']['results'][i]['table']['poster_path'].present? %>
@@ -85,7 +95,8 @@
         <%end%>
       </div>
     </div>
-    
+     <% n += 1 %>
+    <% end %>
 <% else %>
   
   
@@ -120,12 +131,13 @@
       <%#= image_tag 'https://image.tmdb.org/t/p/w1280' + @popular_movie['table']['results'][10]['table']['poster_path'] %>
     </div>
   
-  <% @popular_movie = JSON.parse((Tmdb::Movie.popular).to_json) %>
+  <% n = 1 %>
+  <% while n < 3 %>
+  <% @popular_movie = JSON.parse((Tmdb::Movie.popular(page: n)).to_json) %>
     <div class="container">
       <div class="row">
         
-  
-        <% i = 0 %>
+        <% i = 0%>
         <% while i < @popular_movie['table']['results'].count %>
           <div class="col-3">
             
@@ -147,6 +159,8 @@
         <%end%>
       </div>
     </div>
+    <% n += 1 %>
+    <% end %>
 <% end %>
     
   Copyright（c）2015 18Months Srl
