@@ -7,7 +7,7 @@ $(function() {
   asNavFor: '.slider-nav',
   autoplay: true,
   autoplaySpeed: 3000,
-  // autoplay:true
+  autoplay:true
   
 });
 $('.slider-nav').slick({
