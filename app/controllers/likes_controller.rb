@@ -1,12 +1,14 @@
 class LikesController < ApplicationController
   
   def create
-    Like.create(user_id: current_user.id, review_id: params[:id])
+    @movie = Movie.find(params[:id])
+    Like.create(user_id: current_user.id, movie_id: @movie.id)
     redirect_back(fallback_location: root_path)
   end
 
   def destroy
-    Like.find_by(user_id: current_user.id, review_id: params[:id]).destroy
+    @movie = Movie.find(params[:id])
+    Like.find_by(user_id: current_user.id, movie_id: @movie.id).destroy
     redirect_back(fallback_location: root_path)
   end
 end

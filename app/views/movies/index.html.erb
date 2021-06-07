@@ -6,7 +6,7 @@
     <%= submit_tag '検索' %>
   <% end %>
 
-  <% form_tag(root_path, method: :get) do %>
+  <%= form_tag(root_path, method: :get) do %>
     <% search_field_tag :genre,nil,value: params[:genre] %>
     <% search_field_tag :page_for, nil,value: params[:page_for] %>
     <% submit_tag '検索' %>

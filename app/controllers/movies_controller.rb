@@ -4,7 +4,7 @@ class MoviesController < ApplicationController
   # require 'rubygems'
   # require 'ruby-tmdb'
   Tmdb::Api.language("ja")
-  Tmdb::Api.key("")
+  Tmdb::Api.key("f666fc01f99324fbc4beea6ae1f0e427")
 #   # setup your API key
 # Tmdb.api_key = "t478f8de5776c799de5a"
 
@@ -22,13 +22,15 @@ class MoviesController < ApplicationController
 
 # @movie.posters.first.data
 # # => [binary blob representing JPEG]
-
+def create
+end
 
 def index
   
 end
 
 def show 
+ @like_movie = Movie.find_by(tmdb: params[:id])
   @reviews = Review.all
   @review = Review.new
   @movieinfo = JSON.parse((Tmdb::Movie.detail(params[:id])).to_json)
@@ -47,6 +49,7 @@ def show
   else
     @movie.save
   end
+   
 end
 
   

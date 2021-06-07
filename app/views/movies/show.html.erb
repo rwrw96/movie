@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col-4">
      
-
         <%if detail['table']['poster_path'].present?%>
           <%= image_tag 'https://image.tmdb.org/t/p/w1280' + detail['table']['poster_path'], class: "image" %>
         <%end%>
@@ -30,12 +29,6 @@
         <%end%>
     
         <%= form_with model: @review, local: true do |f| %>
-          <%= f.fields_for :movie do |c| %>
-          <%= c.hidden_field :title, value: @movieinfo["table"]["title"] %>
-          <%= c.hidden_field :release_date, value: @movieinfo["table"]["release_date"] %>
-          <%= c.hidden_field :overview, value: @movieinfo["table"]["overview"] %>
-          <%= c.hidden_field :poster_path, value: @movieinfo["table"]["poster_path"] %>
-          <%= c.hidden_field :tmdb, value: @movieinfo["table"]["id"] %>
           <div id="evaluate_stars">
             <%= f.hidden_field :rate, id: :evaluate_stars %>
             <label>評価</label>
@@ -52,9 +45,7 @@
 
           <%= f.text_field :title %>
           <%= f.text_area :body %>
-          <%= f.hidden_field :movie_id, value: @movie.id %>
           <%= f.submit %>
-          <% end %>
           <% end %>
       </div>
     </div>
@@ -76,6 +67,13 @@
   </div>
 </div>
 
- 
+
+
+ <h2><% if current_user.already_liked?(@like_movie) %>
+  <%= link_to "取り消し", destroy_like_path(@like_movie), method: :DELETE%>
+<% else %>
+  <%= link_to '保存', create_like_path(@like_movie), method: :POST %>
+<% end %></h2>
+
 
 Copyright（c）2015 18Months Srl

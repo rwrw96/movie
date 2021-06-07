@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-    
   get 'relationships/create'
   get 'relationships/destroy'
   get 'likes/create'
   get 'likes/destroy'
   devise_for :users
   root 'movies#index'
+  post "/" => "movies#create"
   resources :movies
   resources :reviews
   resources :users do

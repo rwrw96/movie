@@ -14,9 +14,10 @@ class User < ApplicationRecord
          has_many :followers, through: :passive_relationships, source: :following
          
          
-  def already_liked?(review)
-    self.likes.exists?(review_id: review.id)
+  def already_liked?(movie)
+    self.likes.exists?(movie_id: movie.id)
   end
+  
   def followed_by?(user)
     passive_relationships.find_by(following_id: user.id).present?
   end
